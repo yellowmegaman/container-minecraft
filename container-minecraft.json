@@ -7,7 +7,7 @@
     "docker_password": "{{env `DOCKER_PASSWORD`}}",
     "quay_username":   "{{env `QUAY_USERNAME`}}",
     "quay_password":   "{{env `QUAY_PASSWORD`}}",
-    "forge_version":   "{{evn `FORGE_VERSION`}}",
+    "forge_version":   "{{env `FORGE_VERSION`}}",
     "tag":             "{{env `DEBIAN_VERSION`}}-jdk{{env `OPENJDK_VERSION`}}-{{env `FORGE_VERSION`}}"
   },
   "builders":[
@@ -29,13 +29,13 @@
   "provisioners": [
     {
         "type": "file",
-        "source": "{{user `app`}}-minecraft.entrypoint",
+        "source": "{{user `app`}}.entrypoint",
         "destination": "/usr/bin/{{user `app`}}.entrypoint"
     },
     {
         "type": "shell",
         "inline": [
-          "chmod +x /usr/bin/{{user `app`}}-minecraft.entrypoint",
+          "chmod +x /usr/bin/{{user `app`}}.entrypoint",
           "mkdir /opt/minecraft -p",
           "cd /opt/minecraft",
           "wget -q https://files.minecraftforge.net/maven/net/minecraftforge/forge/{{user `forge_version`}}/forge-{{user `forge_version`}}-installer.jar -o /tmp/forge.jar",
