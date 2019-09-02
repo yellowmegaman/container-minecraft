@@ -38,7 +38,7 @@
           "chmod +x /usr/bin/{{user `app`}}.entrypoint",
           "mkdir /opt/minecraft -p",
           "cd /opt/minecraft",
-          "wget -q https://files.minecraftforge.net/maven/net/minecraftforge/forge/{{user `forge_version`}}/forge-{{user `forge_version`}}-installer.jar -o /tmp/forge.jar",
+          "curl -L https://files.minecraftforge.net/maven/net/minecraftforge/forge/{{user `forge_version`}}/forge-{{user `forge_version`}}-installer.jar -so /tmp/forge.jar",
           "java -jar /tmp/forge --installServer",
           "mv forge-{{user `forge_version`}}-universal.jar mc.jar"
       ]
