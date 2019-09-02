@@ -35,7 +35,7 @@
     {
         "type": "shell",
         "inline": [
-          "chmod +x /usr/bin/{{user `app`}}-minecraft.entrypoint"
+          "chmod +x /usr/bin/{{user `app`}}-minecraft.entrypoint",
           "mkdir /opt/minecraft -p",
           "cd /opt/minecraft",
           "wget -q https://files.minecraftforge.net/maven/net/minecraftforge/forge/{{user `forge_version`}}/forge-{{user `forge_version`}}-installer.jar -o /tmp/forge.jar",
