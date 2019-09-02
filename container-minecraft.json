@@ -1,0 +1,76 @@
+{
+  "variables": {
+    "app":             "{{env `GITHUB_WORKFLOW`}}-minecraft",
+    "from_image":      "{{env `FROM_IMAGE`}}:{{env `DEBIAN_VERSION`}}-jdk{{env `OPENJDK_VERSION`}}",
+    "project_name":    "{{env `PROJECT_NAME`}}",
+    "docker_username": "{{env `DOCKER_USERNAME`}}",
+    "docker_password": "{{env `DOCKER_PASSWORD`}}",
+    "quay_username":   "{{env `QUAY_USERNAME`}}",
+    "quay_password":   "{{env `QUAY_PASSWORD`}}",
+    "forge_version":   "{{evn `FORGE_VERSION`}}",
+    "tag":             "{{env `DEBIAN_VERSION`}}-jdk{{env `OPENJDK_VERSION`}}-{{env `FORGE_VERSION`}}"
+  },
+  "builders":[
+    {
+      "type": "docker",
+      "commit": true,
+      "image": "{{user `from_image`}}",
+      "run_command": ["-dit", "--net=host", "{{.Image}}", "/bin/bash"],
+      "changes": [
+        "ENTRYPOINT [\"{{user `app`}}-minecraft.entrypoint\"]"
+      ],
+      "changes": [
+          "ENV LANG en_US.utf8",
+          "ENV LC_ALL en_US.UTF-8",
+          "ENV LANGUAGE en_US.UTF-8"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+        "type": "file",
+        "source": "{{user `app`}}-minecraft.entrypoint",
+        "destination": "/usr/bin/{{user `app`}}.entrypoint"
+    },
+    {
+        "type": "shell",
+        "inline": [
+          "chmod +x /usr/bin/{{user `app`}}-minecraft.entrypoint"
+          "mkdir /opt/minecraft -p",
+          "cd /opt/minecraft",
+          "wget -q https://files.minecraftforge.net/maven/net/minecraftforge/forge/{{user `forge_version`}}/forge-{{user `forge_version`}}-installer.jar -o /tmp/forge.jar",
+          "java -jar /tmp/forge --installServer",
+          "mv forge-{{user `forge_version`}}-universal.jar mc.jar"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "docker.io/{{user `project_name`}}/{{user `app`}}",
+        "tag": "{{user `tag`}}"
+      },
+      {
+        "type": "docker-push",
+        "login": true,
+        "login_username": "{{user `docker_username`}}",
+        "login_password": "{{user `docker_password`}}"
+      }
+    ],
+    [
+      {
+        "type": "docker-tag",
+        "repository": "quay.io/{{user `project_name`}}/{{user `app`}}",
+        "tag": "{{user `tag`}}"
+      },
+      {
+        "type": "docker-push",
+        "login": true,
+        "login_server": "quay.io",
+        "login_username": "{{user `quay_username`}}",
+        "login_password": "{{user `quay_password`}}"
+      }
+    ]
+  ]
+}

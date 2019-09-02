@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "eula=$EULA" | tee /opt/minecraft/eula.txt
+exec java -jar /opt/minecraft/mc.jar
