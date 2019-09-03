@@ -8,6 +8,7 @@
     "quay_username":   "{{env `QUAY_USERNAME`}}",
     "quay_password":   "{{env `QUAY_PASSWORD`}}",
     "forge_version":   "{{env `FORGE_VERSION`}}",
+    "minecraft_home":  "/opt/minecraft",
     "tag":             "{{env `FORGE_VERSION`}}"
   },
   "builders":[
@@ -17,12 +18,11 @@
       "image": "{{user `from_image`}}",
       "run_command": ["-dit", "--net=host", "{{.Image}}", "/bin/bash"],
       "changes": [
-        "ENTRYPOINT [\"{{user `app`}}.entrypoint\"]"
-      ],
-      "changes": [
-          "ENV LANG en_US.utf8",
-          "ENV LC_ALL en_US.UTF-8",
-          "ENV LANGUAGE en_US.UTF-8"
+        "ENV LANG en_US.utf8",
+        "ENV LC_ALL en_US.UTF-8",
+        "ENV LANGUAGE en_US.UTF-8",
+        "ENTRYPOINT [\"{{user `app`}}.entrypoint\"]",
+	"WORKDIR {{user `minecraft_home`}}"
       ]
     }
   ],
@@ -36,8 +36,8 @@
         "type": "shell",
         "inline": [
           "chmod +x /usr/bin/{{user `app`}}.entrypoint",
-          "mkdir /opt/minecraft -p",
-          "cd /opt/minecraft",
+          "mkdir {{user `minecraft_home`}} -p",
+          "cd {{user `minecraft_home`}}",
           "curl -L https://files.minecraftforge.net/maven/net/minecraftforge/forge/{{user `forge_version`}}/forge-{{user `forge_version`}}-installer.jar -so /tmp/forge.jar",
           "java -jar /tmp/forge.jar --installServer",
           "mv forge-{{user `forge_version`}}-universal.jar mc.jar"
