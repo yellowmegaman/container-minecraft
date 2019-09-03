@@ -3,6 +3,6 @@
 Debian docker image with minecraft server and Forge
 
 ```
-docker run -d --name=mc -e "EULA=true" yellowmegaman/container-minecraft:1.12.2-14.23.5.2844
+docker run -d --name=mc -p 25565:25565 -e "EULA=true" -v /opt/minecraft/mods:/opt/minecraft/mods -v /opt/minecraft/world:/opt/minecraft/world -v /opt/minecraft/server.properties:/opt/minecraft/server.properties yellowmegaman/container-minecraft:1.12.2-14.23.5.2844
 
 ```
