@@ -1,14 +1,14 @@
 {
   "variables": {
     "app":             "{{env `GITHUB_WORKFLOW`}}-minecraft",
-    "from_image":      "{{env `FROM_IMAGE`}}:{{env `DEBIAN_VERSION`}}-jdk{{env `OPENJDK_VERSION`}}",
+    "from_image":      "{{env `FROM_IMAGE`}}:{{env `OPENJDK_VERSION`}}",
     "project_name":    "{{env `PROJECT_NAME`}}",
     "docker_username": "{{env `DOCKER_USERNAME`}}",
     "docker_password": "{{env `DOCKER_PASSWORD`}}",
     "quay_username":   "{{env `QUAY_USERNAME`}}",
     "quay_password":   "{{env `QUAY_PASSWORD`}}",
     "forge_version":   "{{env `FORGE_VERSION`}}",
-    "tag":             "{{env `DEBIAN_VERSION`}}-jdk{{env `OPENJDK_VERSION`}}-{{env `FORGE_VERSION`}}"
+    "tag":             "jdk{{env `OPENJDK_VERSION`}}-{{env `FORGE_VERSION`}}"
   },
   "builders":[
     {

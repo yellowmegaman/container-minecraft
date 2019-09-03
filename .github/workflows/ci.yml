@@ -21,8 +21,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-        DEBIAN_VERSION: bullseye
-        OPENJDK_VERSION: 11
+        OPENJDK_VERSION: 8
         FORGE_VERSION: "1.12.2-14.23.5.2844"
         PROJECT_NAME: yellowmegaman
-        FROM_IMAGE: yellowmegaman/container-openjdk
+        FROM_IMAGE: openjdk
