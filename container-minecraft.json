@@ -17,7 +17,7 @@
       "image": "{{user `from_image`}}",
       "run_command": ["-dit", "--net=host", "{{.Image}}", "/bin/bash"],
       "changes": [
-        "ENTRYPOINT [\"{{user `app`}}-minecraft.entrypoint\"]"
+        "ENTRYPOINT [\"{{user `app`}}.entrypoint\"]"
       ],
       "changes": [
           "ENV LANG en_US.utf8",
@@ -39,7 +39,7 @@
           "mkdir /opt/minecraft -p",
           "cd /opt/minecraft",
           "curl -L https://files.minecraftforge.net/maven/net/minecraftforge/forge/{{user `forge_version`}}/forge-{{user `forge_version`}}-installer.jar -so /tmp/forge.jar",
-          "java -jar /tmp/forge --installServer",
+          "java -jar /tmp/forge.jar --installServer",
           "mv forge-{{user `forge_version`}}-universal.jar mc.jar"
       ]
     }
